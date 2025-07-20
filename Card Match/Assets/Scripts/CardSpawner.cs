@@ -19,6 +19,11 @@ public class CardSpawner : MonoBehaviour
     {
         Column = GameSettings.Instance.Column;
         Row = GameSettings.Instance.Row;
+    }
+
+    private void Start()
+    {
+
         InitCards();
     }
 
@@ -47,6 +52,7 @@ public class CardSpawner : MonoBehaviour
                 }
             }
         }
+        GameManager.Instance.GetCardList(_cardsList);
     }
 
     void ShuffleCards(List<CardScript> cards)

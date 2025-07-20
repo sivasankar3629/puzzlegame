@@ -7,6 +7,7 @@ public class GameSettings : MonoBehaviour
     public static GameSettings Instance;
     public int Row;
     public int Column;
+    public int Score;
 
     private void Awake()
     {

@@ -515,6 +515,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31e52eaea1832494f95065db039ce064, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  GameOver:
+    m_PersistentCalls:
+      m_Calls: []
   _scoreText: {fileID: 1371525152}
 --- !u!1 &931648989
 GameObject:

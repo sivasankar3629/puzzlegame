@@ -17,6 +17,8 @@ public class CardSpawner : MonoBehaviour
 
     private void Awake()
     {
+        Column = GameSettings.Instance.Column;
+        Row = GameSettings.Instance.Row;
         InitCards();
     }
 
@@ -40,7 +42,6 @@ public class CardSpawner : MonoBehaviour
                 if (card != null)
                 {
                     card.ID = randomNumber;
-                    Debug.Log(card.ID);
                     card.CardSprite = _cardSprites[randomNumber];
                     _cardsList.Add(card);
                 }
@@ -102,7 +103,6 @@ public class CardSpawner : MonoBehaviour
 
         // Setting Values
         gridLayout.cellSize = new Vector2(cellSize, cellSize);
-        Debug.Log(cellSize);
         gridLayout.spacing = new Vector2(spacing, spacing);
         gridLayout.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
         gridLayout.constraintCount = Column;

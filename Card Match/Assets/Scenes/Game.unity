@@ -259,7 +259,6 @@ MonoBehaviour:
   - {fileID: 21300002, guid: dffef66376be4fa480fb02b19edbe903, type: 3}
   - {fileID: 21300004, guid: dffef66376be4fa480fb02b19edbe903, type: 3}
   - {fileID: 21300006, guid: dffef66376be4fa480fb02b19edbe903, type: 3}
-  - {fileID: 21300008, guid: dffef66376be4fa480fb02b19edbe903, type: 3}
   - {fileID: 21300026, guid: dffef66376be4fa480fb02b19edbe903, type: 3}
   - {fileID: 21300010, guid: dffef66376be4fa480fb02b19edbe903, type: 3}
   - {fileID: 21300012, guid: dffef66376be4fa480fb02b19edbe903, type: 3}
@@ -512,6 +511,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 670147127}
+  - component: {fileID: 670147128}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -534,6 +534,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &670147128
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 670147126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31e52eaea1832494f95065db039ce064, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1319840026
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Flipping_anim
+  m_Name: FlipBack_anim
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -233,17 +233,17 @@ AnimationClip:
   m_HasGenericRootTransform: 1
   m_HasMotionFloatCurves: 0
   m_Events:
-  - time: 0
-    functionName: DisableButton
+  - time: 0.25
+    functionName: HideSprite
     data: 
-    objectReferenceParameter: {fileID: 11500000, guid: 804c53f17c6310c4891dc89c0c337e3b, type: 3}
+    objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.25
-    functionName: ShowSprite
+  - time: 0.5
+    functionName: EnableButton
     data: 
-    objectReferenceParameter: {fileID: 11500000, guid: 804c53f17c6310c4891dc89c0c337e3b, type: 3}
+    objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0

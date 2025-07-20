@@ -33,13 +33,14 @@ public class CardSpawner : MonoBehaviour
         int total = Column * Row;
         for (int i = 0; i < total / 2; i++)
         {
+            int randomNumber = Random.Range(0, _cardSprites.Length);
             for (int j = 0; j < 2; j++)
             {
                 CardScript card = Instantiate(_cardPrefab.GetComponent<CardScript>(), _tempContainer, false);
-                int randomNumber = Random.Range(0, _cardSprites.Length);
                 if (card != null)
                 {
-                    card.ID = i;
+                    card.ID = randomNumber;
+                    Debug.Log(card.ID);
                     card.CardSprite = _cardSprites[randomNumber];
                     _cardsList.Add(card);
                 }
@@ -73,9 +74,7 @@ public class CardSpawner : MonoBehaviour
 
         // Total Length
         float totalWidth = _cardContainer.rect.width;
-        Debug.Log("Width - " + totalWidth);
         float totalHeight = _cardContainer.rect.height;
-        Debug.Log("Height - " + totalHeight);
 
         // Padding
         int top = gridLayout.padding.top = (int)(totalHeight * 0.1);
@@ -85,29 +84,21 @@ public class CardSpawner : MonoBehaviour
 
         // Available Length
         float availableWidth = totalWidth - left - right;
-        Debug.Log(availableWidth + " av width");
         float availableHeight = totalHeight - top - bottom;
-        Debug.Log(availableHeight + " av height");
 
         // Size based on Width
         float spacingW = availableWidth * 0.01f;
         float totalSpacingW = spacingW * (Column - 1);
-        Debug.Log(totalSpacingW + " space W");
         float cellW = (availableWidth - totalSpacingW) / Column;
-        Debug.Log(cellW + " Cell W");
 
         // Size based on Height
         float spacingH = availableHeight * 0.01f;
         float totalSpacingH = spacingH * (Row - 1);
-        Debug.Log(totalSpacingH + " space H");
         float cellH = (availableHeight - totalSpacingH) / Row;
-        Debug.Log(cellH + " Cell H");
 
         // Comparing width and height
         float cellSize = Mathf.Min(cellW, cellH);
-        Debug.Log("Final Size - " + cellSize);
         float spacing = Mathf.Min(spacingW, spacingH);
-        Debug.Log("Final Space - " + spacing);
 
         // Setting Values
         gridLayout.cellSize = new Vector2(cellSize, cellSize);

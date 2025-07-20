@@ -6,20 +6,42 @@ using UnityEngine.UI;
 public class CardScript : MonoBehaviour
 {
     public int ID;
-    public bool IsSelected;
+    private bool _isSelected;
+    [Header("References")]
     public Sprite CardSprite;
-    [SerializeField] private Image CardImage;
-
+    [SerializeField] private Image _cardImage;
+    [SerializeField] private Button _button;
     [SerializeField] private Sprite _defaultSprite;
+    [SerializeField] private Animator _animator;
+    [SerializeField] private Animator _animator2;
 
     public void ShowSprite()
     {
-        CardImage.sprite = CardSprite;
+        _cardImage.sprite = CardSprite;
+        _isSelected = true;
+        GameManager.Instance.OnCardFlip(this);
     }
 
     public void HideSprite()
     {
-        CardImage.sprite = null;
+        _cardImage.sprite = _defaultSprite;
+        _isSelected = false;
+        GameManager.Instance.OnCardFlipBack(this);
+        EnableButton();
     }
 
+    public void FlipBack()
+    {
+        _animator.SetTrigger("FlipBack");
+    }
+
+    public void DisableButton()
+    {
+        _button.interactable = false;
+    }
+
+    public void EnableButton()
+    {
+        _button.interactable = true;
+    }
 }

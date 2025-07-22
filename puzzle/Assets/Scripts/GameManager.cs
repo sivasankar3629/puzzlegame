@@ -68,15 +68,18 @@ public class GameManager : MonoBehaviour
 
             AddScore(_scoreMultiplyer);
             _scoreMultiplyer ++; // Streak Bonus
-            Invoke(nameof(GameOverCheck), 2f);
+            Invoke(nameof(GameOverCheck), 2.5f);
         }
         else
         {
             CardScript card1 = _matchList[0];
             _matchList.Remove(card1);
+            card1.MatchNotFound?.Invoke();
             card1.FlipBack();
+
             CardScript card2 = _matchList[0];
             _matchList.Remove(card2);
+            card2.MatchNotFound?.Invoke();
             card2.FlipBack();
 
             // Reset Multiplyer
@@ -96,8 +99,8 @@ public class GameManager : MonoBehaviour
         if (_cardsList.Count == 0)
         {
             GameSettings.Instance.Score = _score;
-            GameOver.AddListener(GameOverScene);
             GameOver?.Invoke();
+            GameOver.AddListener(GameOverScene);
         }
     }
 

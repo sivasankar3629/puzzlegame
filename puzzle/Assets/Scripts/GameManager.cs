@@ -18,8 +18,12 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance != null) return;
-        Instance = this;
+        if (Instance == null) Instance = this;
+        else
+        {
+            Destroy(this);
+        }
+        
     }
 
     public void GetCardList(List<CardScript> cardList)
@@ -58,7 +62,7 @@ public class GameManager : MonoBehaviour
 
             CardScript card2 = _matchList[0];
             _matchList.Remove(card2);
-            card2 .DisableButton();
+            card2.DisableButton();
             _cardsList.Remove (card2);
             card2.MatchFound?.Invoke();
 

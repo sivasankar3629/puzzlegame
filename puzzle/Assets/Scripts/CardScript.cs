@@ -14,6 +14,7 @@ public class CardScript : MonoBehaviour
     [SerializeField] private Sprite _defaultSprite;
     [SerializeField] private Animator _animator;
     public UnityEvent MatchFound;
+    public bool IsMatched;
 
     public void ShowSprite()
     {

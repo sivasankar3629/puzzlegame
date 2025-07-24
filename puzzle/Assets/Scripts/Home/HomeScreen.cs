@@ -20,6 +20,11 @@ public class HomeScreen : MonoBehaviour
         SceneManager.LoadScene("Game");
     }
 
+    public void OnClickLoad()
+    {
+        GameSettings.Instance.IsLoadingSavedGame = true;
+    }
+
     public void OnClickExit()
     {
         Application.Quit();

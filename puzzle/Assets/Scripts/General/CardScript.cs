@@ -44,4 +44,11 @@ public class CardScript : MonoBehaviour
     {
         _button.interactable = true;
     }
+
+    public void DisableCard()
+    {
+        _button.interactable = false;
+        GetComponent<Image>().color = Color.clear;
+        _cardImage.color = Color.clear;
+    }
 }

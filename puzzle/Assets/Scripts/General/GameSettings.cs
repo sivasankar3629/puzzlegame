@@ -8,6 +8,7 @@ public class GameSettings : MonoBehaviour
     public int Row;
     public int Column;
     public int Score;
+    public bool IsLoadingSavedGame;
 
     private void Awake()
     {

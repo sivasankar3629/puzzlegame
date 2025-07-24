@@ -17,62 +17,96 @@ public class CardSpawner : MonoBehaviour
 
     private void Awake()
     {
+        if (GameSettings.Instance.IsLoadingSavedGame) return;
+
         Column = GameSettings.Instance.Column;
         Row = GameSettings.Instance.Row;
     }
 
     private void Start()
     {
-
-        InitCards();
-    }
-
-    void InitCards()
-    {
-        InstantiateCards();
-        ScaleCards();
-        ShuffleCards(_cardsList);
-        PlaceCards(_cardsList);
-    }
-
-    void InstantiateCards()
-    {
-        int total = Column * Row;
-        for (int i = 0; i < total / 2; i++)
+        if (GameSettings.Instance.IsLoadingSavedGame)
         {
-            int randomNumber = Random.Range(0, _cardSprites.Length);
-            for (int j = 0; j < 2; j++)
+            LoadGame();
+            ScaleCards();
+        }
+        else
+        {
+            InitRandomCards();
+        }
+    }
+
+    void InitRandomCards()
+    {
+        InstantiateRandomCards();
+        ScaleCards();
+    }
+
+    void LoadGame()
+    {
+        PlayerData data = SaveSystem.LoadGame();
+
+        InstantiateKnownCards(data);
+        GameManager.Instance.Score = data.score;
+        GameManager.Instance.MatchesMade = data.matchMade;
+        GameManager.Instance.UpdateScore(data.score);
+        GameManager.Instance.ScoreMultiplier = data.scoreMultiplyer;
+    }
+
+    void InstantiateKnownCards(PlayerData data)
+    {
+        List<CardScript> cards = new List<CardScript>();
+        for (int i = 0; i < data.ID.Count; i++)
+        {
+            CardScript card = Instantiate(_cardPrefab, _cardContainer, false);
+            card.IsMatched = data.IsMatched[i];
+            cards.Add(card);
+
+            if (card.IsMatched)
             {
-                CardScript card = Instantiate(_cardPrefab.GetComponent<CardScript>(), _tempContainer, false);
-                if (card != null)
-                {
-                    card.ID = randomNumber;
-                    card.CardSprite = _cardSprites[randomNumber];
-                    _cardsList.Add(card);
-                }
+                card.ID = data.ID[i];
+                card.DisableCard();
+            }
+            else
+            {
+                card.ID = data.ID[i];
+                card.CardSprite = _cardSprites[data.ID[i]];
             }
         }
+        GameManager.Instance.GetCardList(cards);
+    }
+
+    void InstantiateRandomCards()
+    {
+        int total = Column * Row;
+        List<int> idList = new List<int>();
+
+        // Card ID
+        for ( int i = 0; i < total / 2; i++)
+        {
+            int randomID = Random.Range(0,_cardSprites.Length);
+            idList.Add(randomID);
+            idList.Add(randomID);
+        }
+
+        // Shuffle ID
+        for (int i = 0; i < idList.Count; i++)
+        {
+            int randomNumber = Random.Range(0, idList.Count);
+            int temp = idList[i];
+            idList[i] = idList[randomNumber];
+            idList[randomNumber] = temp;
+        }
+
+        // Instantiate
+        foreach(int id in idList)
+        {
+            CardScript card = Instantiate(_cardPrefab, _cardContainer, false);
+            card.ID = id;
+            card.CardSprite = _cardSprites[id];
+            _cardsList.Add(card);
+        }
         GameManager.Instance.GetCardList(_cardsList);
-    }
-
-    void ShuffleCards(List<CardScript> cards)
-    {
-        for ( int i = 0; i < cards.Count; i++ )
-        {
-            int randomNumber = Random.Range(0, cards.Count);
-            CardScript temp = cards[i];
-            cards[i] = cards[randomNumber];
-            cards[randomNumber] = temp;
-        }
-    }
-
-    void PlaceCards(List<CardScript> cards)
-    {
-        for ( int i = 0; i < cards.Count; i++ )
-        {
-            CardScript temp = cards[i];
-            temp.transform.SetParent(_cardContainer);
-        }
     }
 
     void ScaleCards()

@@ -12,18 +12,22 @@ public class GameManager : MonoBehaviour
     private List<CardScript> _selectedCards = new();
     private List<CardScript> _cardsList = new();
     private int _matchesRequired;
+    private int _maxTurns;
+    private bool _gameOver = false;
     [SerializeField] private TMP_Text _scoreText;
+    [SerializeField] private TMP_Text _turnsLeft;
     public int ScoreMultiplier = 1;
     public int Score = 0;
     public int MatchesMade;
+    public int TurnsLeft;
+    public UnityEvent GameOver;
+
 
     private void Awake()
     {
+        UnityEngine.EventSystems.EventSystem.current.enabled = true;
         if (Instance == null) Instance = this;
-        else
-        {
-            Destroy(this);
-        }
+        else Destroy(this);
     }
 
     // Retrieve the list of cards from Card Spawner
@@ -31,12 +35,21 @@ public class GameManager : MonoBehaviour
     {
         _cardsList.AddRange(cardsList);
         _matchesRequired = cardsList.Count / 2;
+        _maxTurns = Mathf.CeilToInt(cardsList.Count * 1.5f);
+        TurnsLeft = _maxTurns;
+        UpdateTurns(TurnsLeft);
+
     }
 
     public void OnCardFlip(CardScript card)
     {
+        if (_gameOver) return;
+
+        TurnsLeft--;
+        UpdateTurns(TurnsLeft);
         _selectedCards.Add(card);
         CheckMatch();
+        GameOverCheck();
     }
 
     public void OnCardFlipBack(CardScript card)
@@ -78,6 +91,8 @@ public class GameManager : MonoBehaviour
         {
             HandleMismatch(card1, card2);
         }
+
+        GameOverCheck();
     }
 
     void HandleMatch(CardScript card1, CardScript card2)
@@ -95,7 +110,6 @@ public class GameManager : MonoBehaviour
         MatchesMade++;
         AddScore(ScoreMultiplier);
         ScoreMultiplier++; // Streak Bonus
-        Invoke(nameof(GameOverCheck), 2.5f);
     }
 
     void HandleMismatch(CardScript card1, CardScript card2)
@@ -121,23 +135,32 @@ public class GameManager : MonoBehaviour
 
     public void UpdateScore(int score)
     {
-        _scoreText.text = Score.ToString();
+        _scoreText.text = $"Score : {score}";
+    }
+
+    public void UpdateTurns(int turns)
+    {
+        _turnsLeft.text = $"Turns : {turns}";
     }
 
     void GameOverCheck()
     {
-        Debug.Log("game over check");
-        if ( MatchesMade == _matchesRequired)
+        if (_gameOver) return;
+        if (MatchesMade == _matchesRequired || TurnsLeft < 1)
         {
-            GameSettings.Instance.Score = Score;
-            GameOverScene();
-            Debug.Log("match == req");
+            _gameOver = true;
+            UnityEngine.EventSystems.EventSystem.current.enabled = false;
+            StartCoroutine(GameOverRoutine());
         }
     }
 
-    void GameOverScene()
+    IEnumerator GameOverRoutine()
     {
+        yield return new WaitForSeconds(1f);
+        GameOver?.Invoke();
+        yield return new WaitForSeconds(1.5f);
         SceneManager.LoadScene("GameOver");
+        GameSettings.Instance.Score = Score;
     }
 
     public void SaveGame()

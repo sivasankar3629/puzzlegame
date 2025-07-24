@@ -10,6 +10,7 @@ public class PlayerData
     public int score;
     public int matchMade;
     public int scoreMultiplyer;
+    public int turnsLeft;
 
     public PlayerData( GameManager manager)
     {
@@ -21,5 +22,6 @@ public class PlayerData
         score = manager.Score;
         matchMade = manager.MatchesMade;
         scoreMultiplyer = manager.ScoreMultiplier;
+        turnsLeft = manager.TurnsLeft;
     }
 }

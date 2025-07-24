@@ -29,6 +29,7 @@ public class CardSpawner : MonoBehaviour
         {
             LoadGame();
             ScaleCards();
+            GameSettings.Instance.IsLoadingSavedGame = false;
         }
         else
         {
@@ -48,9 +49,11 @@ public class CardSpawner : MonoBehaviour
 
         InstantiateKnownCards(data);
         GameManager.Instance.Score = data.score;
-        GameManager.Instance.MatchesMade = data.matchMade;
         GameManager.Instance.UpdateScore(data.score);
+        GameManager.Instance.MatchesMade = data.matchMade;
         GameManager.Instance.ScoreMultiplier = data.scoreMultiplyer;
+        GameManager.Instance.TurnsLeft = data.turnsLeft;
+        GameManager.Instance.UpdateTurns(data.turnsLeft);
     }
 
     void InstantiateKnownCards(PlayerData data)

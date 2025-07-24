@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour
     {
         _cardsList.AddRange(cardsList);
         _matchesRequired = cardsList.Count / 2;
-        _maxTurns = Mathf.CeilToInt(cardsList.Count * 1.5f);
+        _maxTurns = Mathf.CeilToInt(cardsList.Count * 1.9f);
         TurnsLeft = _maxTurns;
         UpdateTurns(TurnsLeft);
 
@@ -72,7 +72,7 @@ public class GameManager : MonoBehaviour
     {
         if (_selectedCards.Count % 2 == 0)
         {
-            Invoke(nameof(MatchingLogic), 1f);
+            Invoke(nameof(MatchingLogic), 0.5f);
         }
     }
 
@@ -163,8 +163,13 @@ public class GameManager : MonoBehaviour
         GameSettings.Instance.Score = Score;
     }
 
-    public void SaveGame()
+    public void OnClickSave()
     {
         SaveSystem.SaveGame(this);
+    }
+
+    public void OnClickHome()
+    {
+        SceneManager.LoadScene("HomePage");
     }
 }

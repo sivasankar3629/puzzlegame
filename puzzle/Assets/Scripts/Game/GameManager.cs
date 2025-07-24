@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour
     {
         _cardsList.AddRange(cardsList);
         _matchesRequired = cardsList.Count / 2;
-        _maxTurns = Mathf.CeilToInt(cardsList.Count * 1.9f);
+        _maxTurns = Mathf.CeilToInt(cardsList.Count * 1.7f);
         TurnsLeft = _maxTurns;
         UpdateTurns(TurnsLeft);
 
